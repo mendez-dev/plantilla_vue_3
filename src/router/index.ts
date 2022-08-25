@@ -1,3 +1,4 @@
+import appRoutes from "@/modules/app/router";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import DashboardLayout from "../layouts/DashboardLayout.vue";
 
@@ -9,6 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresAuth: true,
     },
+    children: [...appRoutes],
   },
   {
     path: "/login",

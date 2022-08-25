@@ -11,6 +11,15 @@
     </template>
 
     <v-divider></v-divider>
+    <v-list density="compact" nav>
+      <v-list-item
+        @click="$router.push('/app_settings')"
+        prepend-icon="fa fa-mobile-screen-button"
+        title="Aplicación"
+        subtitle="Ajustes de la aplicación"
+        value="starred"
+      ></v-list-item>
+    </v-list>
   </v-navigation-drawer>
 </template>
 
