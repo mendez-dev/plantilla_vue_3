@@ -36,7 +36,7 @@ import NavigationDrawer from "@/components/NavigationDrawer.vue";
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 
-const rail = ref(true);
+const rail = ref(false);
 const auth = useAuthStore();
 
 auth.verify();

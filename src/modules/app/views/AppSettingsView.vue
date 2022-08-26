@@ -18,16 +18,25 @@
                 <v-col cols="6">
                   <v-text-field
                     variant="underlined"
-                    label="Nombre de la aplicacion"
+                    label="Nombre de la aplicación"
+                    v-model="form.app_name"
                   >
                   </v-text-field>
                 </v-col>
                 <v-col cols="3">
-                  <v-text-field variant="underlined" label="Divisa">
+                  <v-text-field
+                    v-model="form.default_currency"
+                    variant="underlined"
+                    label="Divisa"
+                  >
                   </v-text-field>
                 </v-col>
                 <v-col cols="3">
-                  <v-text-field variant="underlined" label="IVA">
+                  <v-text-field
+                    v-model="form.default_tax"
+                    variant="underlined"
+                    label="IVA"
+                  >
                   </v-text-field>
                 </v-col>
               </v-row>
@@ -35,39 +44,63 @@
                 <v-col cols="6">
                   <ColorPickerInput
                     label="Color primario"
-                    v-model="primaryColor"
+                    v-model="form.main_color"
                   />
                 </v-col>
                 <v-col cols="6">
-                  <ColorPickerInput label="Color primario (Modo oscuro)" />
+                  <ColorPickerInput
+                    label="Color primario (Modo oscuro)"
+                    v-model="form.main_dark_color"
+                  />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="6">
-                  <ColorPickerInput label="Color secundario" />
+                  <ColorPickerInput
+                    label="Color secundario"
+                    v-model="form.second_color"
+                  />
                 </v-col>
                 <v-col cols="6">
-                  <ColorPickerInput label="Color secundario (Modo oscuro)" />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="6">
-                  <ColorPickerInput label="Color de acento" />
-                </v-col>
-                <v-col cols="6">
-                  <ColorPickerInput label="Color de acento (Modo oscuro)" />
+                  <ColorPickerInput
+                    label="Color secundario (Modo oscuro)"
+                    v-model="form.second_dark_color"
+                  />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="6">
-                  <ColorPickerInput label="Color de fondo" />
+                  <ColorPickerInput
+                    label="Color de acento"
+                    v-model="form.accent_dark_color"
+                  />
                 </v-col>
                 <v-col cols="6">
-                  <ColorPickerInput label="Color de fondo (Modo oscuro)" />
+                  <ColorPickerInput
+                    label="Color de acento (Modo oscuro)"
+                    v-model="form.accent_dark_color"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Color de fondo"
+                    v-model="form.scaffold_color"
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Color de fondo (Modo oscuro)"
+                    v-model="form.scaffold_dark_color"
+                  />
                 </v-col>
               </v-row>
             </v-form>
           </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" block variant="flat">Guardar</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -75,9 +108,54 @@
 </template>
 <script setup lang="ts">
 import ColorPickerInput from "@/components/ColorPickerInput.vue";
-import { ref } from "@vue/reactivity";
+import { ref, reactive, onMounted } from "vue";
+import { useAppSettingsStore } from "@/stores/app_settings";
 
-const primaryColor = ref("#1976D2");
+const appSettingsStore = useAppSettingsStore();
+const form = reactive({
+  id_settings: "",
+  app_name: "",
+  default_tax: 0.0,
+  default_currency: "",
+  main_color: "",
+  main_dark_color: "",
+  second_color: "",
+  second_dark_color: "",
+  accent_color: "",
+  accent_dark_color: "",
+  scaffold_color: "",
+  scaffold_dark_color: "",
+  created_by: "",
+  created_at: "",
+  updated_by: "",
+  updated_at: "",
+  deleted_by: "",
+  deleted_at: "",
+});
+
+onMounted(async () => {
+  await appSettingsStore.getAppSettings();
+  if (appSettingsStore.appSettings) {
+    form.id_settings = appSettingsStore.appSettings.id_settings;
+    form.app_name = appSettingsStore.appSettings.app_name;
+    form.default_tax = appSettingsStore.appSettings.default_tax;
+    form.default_currency = appSettingsStore.appSettings.default_currency;
+    form.main_color = appSettingsStore.appSettings.main_color;
+    form.main_dark_color = appSettingsStore.appSettings.main_dark_color;
+    form.second_color = appSettingsStore.appSettings.second_color;
+    form.second_dark_color = appSettingsStore.appSettings.second_dark_color;
+    form.accent_color = appSettingsStore.appSettings.accent_color;
+    form.accent_dark_color = appSettingsStore.appSettings.accent_dark_color;
+    form.scaffold_color = appSettingsStore.appSettings.scaffold_color;
+    form.scaffold_dark_color = appSettingsStore.appSettings.scaffold_dark_color;
+    form.created_by = appSettingsStore.appSettings.created_by;
+    form.created_at = appSettingsStore.appSettings.created_at;
+    form.updated_by = appSettingsStore.appSettings.updated_by;
+    form.updated_at = appSettingsStore.appSettings.updated_at;
+    form.deleted_by = appSettingsStore.appSettings.deleted_by;
+    form.deleted_at = appSettingsStore.appSettings.deleted_at;
+  }
+});
 
 const items = ref([
   {
