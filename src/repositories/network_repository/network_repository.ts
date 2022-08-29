@@ -41,6 +41,8 @@ instance.interceptors.response.use(
     } else if (error.response.status >= 400 && error.response.status < 500) {
       if (error.response.data.errors != undefined) {
         message = error.response.data.errors[0];
+      } else {
+        message = error.response.statusText;
       }
     } else {
       message = error.response.statusText;

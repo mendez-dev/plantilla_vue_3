@@ -30,11 +30,11 @@ export const useAuthStore = defineStore("auth", {
       this.loading = false;
     },
     async verify() {
-      try {
-        const response = await Auth.verify();
+      const response = await Auth.verify();
+      if (response.status === 200) {
         this.user = User.fromJson(JSON.stringify(response.data));
         this.logged = true;
-      } catch (error) {
+      } else {
         this.logged = false;
         localStorage.removeItem("token");
         router.push("/login");

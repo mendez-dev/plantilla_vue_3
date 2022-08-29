@@ -23,7 +23,7 @@
         </template>
         <v-card>
           <v-card-text class="pa-0">
-            <v-color-picker v-model="color" mode="hex" flat />
+            <v-color-picker v-model="color" hide-inputs mode="hex" flat />
           </v-card-text>
         </v-card>
       </v-menu>
@@ -48,7 +48,7 @@ const props = defineProps({
   },
 });
 
-const color = ref("#1976D2FF");
+const color = ref("");
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -60,7 +60,7 @@ const menu = ref(false);
 
 onMounted(() => {
   if (props.modelValue == "") {
-    color.value = "#ECECEC";
+    color.value = "";
   } else {
     color.value = props.modelValue;
   }

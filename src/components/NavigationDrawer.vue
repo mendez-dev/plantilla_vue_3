@@ -5,8 +5,8 @@
         height="65"
         two-line
         prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
-        title="Jane Smith"
-        subtitle="Logged in"
+        :title="auth.user?.fullName"
+        subtitle="En linea"
       ></v-list-item>
     </template>
 
@@ -27,6 +27,10 @@
 // Importaciones --------------------------
 import { computed, defineProps } from "vue";
 import { useDisplay } from "vuetify";
+import { useAuthStore } from "@/stores/auth";
+
+// Accedemos a la informacion de la sesion
+const auth = useAuthStore();
 
 /* Creamos una instancia del Display API de Vuetify 3
  * para acceder a la información de la pantalla

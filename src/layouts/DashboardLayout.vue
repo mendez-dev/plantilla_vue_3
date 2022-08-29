@@ -26,6 +26,13 @@
     </v-app-bar>
 
     <v-main>
+      <v-progress-linear
+        :active="utils.loading"
+        :indeterminate="utils.loading"
+        absolute
+        bottom
+        color="primary"
+      ></v-progress-linear>
       <router-view></router-view>
     </v-main>
   </v-app>
@@ -35,9 +42,11 @@
 import NavigationDrawer from "@/components/NavigationDrawer.vue";
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
+import { useUtilsStore } from "@/stores/utils";
 
 const rail = ref(false);
 const auth = useAuthStore();
+const utils = useUtilsStore();
 
 auth.verify();
 </script>

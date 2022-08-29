@@ -17,6 +17,11 @@ export default class User {
   deleted_by: string;
   deleted_at: string;
 
+  // getter para el nombre completo
+  get fullName(): string {
+    return this.firstname + " " + this.lastname;
+  }
+
   constructor(
     id_user: string,
     id_user_group: string,
