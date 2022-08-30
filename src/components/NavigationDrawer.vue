@@ -16,8 +16,16 @@
         @click="$router.push('/app_settings')"
         prepend-icon="fa fa-mobile-screen-button"
         title="Aplicación"
+        value="/app_settings"
         subtitle="Ajustes de la aplicación"
-        value="starred"
+      ></v-list-item>
+
+      <v-list-item
+        @click="$router.push('/users')"
+        prepend-icon="fa fa-users"
+        title="Usuarios"
+        value="true"
+        subtitle="Administración de usuarios"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>

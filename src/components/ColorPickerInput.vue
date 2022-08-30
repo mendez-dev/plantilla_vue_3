@@ -31,15 +31,7 @@
   </v-text-field>
 </template>
 <script setup lang="ts">
-import {
-  ref,
-  Ref,
-  defineProps,
-  computed,
-  defineEmits,
-  onMounted,
-  watch,
-} from "vue";
+import { ref, defineProps, computed, defineEmits, onMounted, watch } from "vue";
 
 const props = defineProps({
   modelValue: {
