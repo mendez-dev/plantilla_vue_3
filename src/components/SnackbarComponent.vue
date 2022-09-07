@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { AlertType } from "@/models/Alert/Alert";
+import { AlertType } from "@/plugins/Alert";
 import { useUtilsStore } from "@/stores/utils";
 const utils = useUtilsStore();
 </script>

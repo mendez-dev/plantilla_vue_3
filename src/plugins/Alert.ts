@@ -1,4 +1,4 @@
-import { useUtilsStore } from "../../stores/utils/index";
+import { useUtilsStore } from "../stores/utils/index";
 
 /**
  * Clase que representa las propiedades de una alerta

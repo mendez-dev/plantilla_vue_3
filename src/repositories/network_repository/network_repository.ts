@@ -1,4 +1,4 @@
-import { Alert, AlertType } from "@/models/Alert/Alert";
+import { Alert, AlertType } from "@/plugins/Alert";
 import axios from "axios";
 
 const config = {

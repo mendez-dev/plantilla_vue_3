@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import AppSettings from "@/models/Settings/AppSettings";
 import AppSettingsService from "../../services/appSettings.service";
 import { useUtilsStore } from "../utils/index";
-import { Alert, AlertType } from "../../models/Alert/Alert";
+import { Alert, AlertType } from "../../plugins/Alert";
 
 const utils = useUtilsStore();
 

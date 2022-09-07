@@ -1,19 +1,40 @@
 <template>
-  <v-navigation-drawer v-model="drawer" permanent :rail="rail" app>
+  <v-navigation-drawer
+    v-model="drawer"
+    :width="width"
+    :permanent="permanent"
+    :rail="rail"
+    app
+  >
     <template v-slot:prepend>
-      <v-list-item
-        height="65"
-        two-line
-        prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
-        :title="auth.user?.fullName"
-        subtitle="En linea"
-      ></v-list-item>
+      <v-list-item v-if="display.xs.value">
+        <v-row class="justify-end">
+          <v-col class="d-flex justify-end" xs="2">
+            <v-icon color="grey" size="16" @click="$emit('closeEvent')"
+              >fa fa-close</v-icon
+            >
+          </v-col>
+        </v-row>
+      </v-list-item>
+
+      <v-container>
+        <v-img
+          class="mx-auto"
+          :aspect-ratio="1"
+          cover
+          width="150"
+          src="../assets/logo.png"
+        ></v-img>
+      </v-container>
     </template>
 
     <v-divider></v-divider>
     <v-list density="compact" nav>
       <v-list-item
-        @click="$router.push('/app_settings')"
+        @click="
+          $router.push('/app_settings');
+          $emit('closeEvent');
+        "
         prepend-icon="fa fa-mobile-screen-button"
         title="Aplicación"
         value="/app_settings"
@@ -21,7 +42,10 @@
       ></v-list-item>
 
       <v-list-item
-        @click="$router.push('/users')"
+        @click="
+          $router.push('/users');
+          $emit('closeEvent');
+        "
         prepend-icon="fa fa-users"
         title="Usuarios"
         value="true"
@@ -35,10 +59,6 @@
 // Importaciones --------------------------
 import { computed, defineProps } from "vue";
 import { useDisplay } from "vuetify";
-import { useAuthStore } from "@/stores/auth";
-
-// Accedemos a la informacion de la sesion
-const auth = useAuthStore();
 
 /* Creamos una instancia del Display API de Vuetify 3
  * para acceder a la información de la pantalla
@@ -62,6 +82,20 @@ const drawer = computed(() => {
     return !props.rail;
   }
   return true;
+});
+
+const permanent = computed(() => {
+  if (display.xs.value) {
+    return false;
+  }
+  return true;
+});
+
+const width = computed(() => {
+  if (display.xs.value) {
+    return display.width.value;
+  }
+  return "300";
 });
 </script>
 

@@ -1,4 +1,4 @@
-import { Alert, AlertType } from "@/models/Alert/Alert";
+import { Alert, AlertType } from "@/plugins/Alert";
 import { defineStore } from "pinia";
 
 // Store que para manejar las utilidades de la plantilla

@@ -13,7 +13,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col sm="12" md="6" lg="4" xl="3">
+      <v-col cols="12" sm="12" md="6" lg="4" xl="3">
         <DashboardCard
           header-text="Administracion de"
           main-text="Usuarios"
@@ -22,7 +22,7 @@
           @onClick="$router.push('/users/admin')"
         />
       </v-col>
-      <v-col sm="12" md="6" lg="4" xl="3">
+      <v-col cols="12" sm="12" md="6" lg="4" xl="3">
         <DashboardCard
           header-text="Administracion de"
           main-text="Grupos de usuarios"
@@ -34,7 +34,7 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import DashboardCard from "@/components/DashboardCard.vue";
+import DashboardCard from "@/components/DashboardCardComponent.vue";
 import { ref } from "@vue/reactivity";
 
 const breadcrumbs = ref([

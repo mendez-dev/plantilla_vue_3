@@ -9,13 +9,32 @@ const getUsers = async (
     params: {
       page,
       records_per_page,
-      firstname: query,
-      lastname: query,
+      firstname: query.trim(),
+      lastname: query.trim(),
+      full_name: query.trim(),
     },
   });
   return response;
 };
 
+const create = async (user: any) => {
+  const response = await network.post("/v1/user", user);
+  return response;
+};
+
+const get = async (id: string) => {
+  const response = await network.get(`/v1/user/${id}`);
+  return response;
+};
+
+const update = async (id: string, user: any) => {
+  const response = await network.put(`/v1/user/${id}`, user);
+  return response;
+};
+
 export default {
   getUsers,
+  create,
+  get,
+  update,
 };

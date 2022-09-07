@@ -1,6 +1,9 @@
 <template>
   <v-app id="inspire">
-    <NavigationDrawer :rail="rail"></NavigationDrawer>
+    <NavigationDrawer
+      @closeEvent="rail = !rail"
+      :rail="rail"
+    ></NavigationDrawer>
     <v-app-bar app color="primary">
       <v-app-bar-nav-icon @click="rail = !rail"></v-app-bar-nav-icon>
       <v-toolbar-title>Application</v-toolbar-title>
@@ -39,15 +42,23 @@
 </template>
 
 <script setup lang="ts">
-import NavigationDrawer from "@/components/NavigationDrawer.vue";
-import { ref } from "vue";
+import NavigationDrawer from "@/components/NavigationDrawerComponent.vue";
+import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useUtilsStore } from "@/stores/utils";
+import { useDisplay } from "vuetify";
+
+const display = useDisplay();
 
 const rail = ref(false);
 const auth = useAuthStore();
 const utils = useUtilsStore();
 
+onMounted(() => {
+  if (display.xs.value) {
+    rail.value = true;
+  }
+});
 auth.verify();
 </script>
 
