@@ -2,7 +2,7 @@
   <datatable-component
     ref="dataTable"
     :headers="headers"
-    :get-data="users.getUsers"
+    :get-data="usersServices.getUsers"
   >
     <template v-slot:[`item.is_active`]="{ item }">
       <v-chip v-if="item.is_active" class="ma-2 text-white" color="green">
@@ -11,47 +11,73 @@
       <v-chip v-else class="ma-2 text-white" color="red"> Inactivo </v-chip>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-menu>
-        <template v-slot:activator="{ props }">
-          <v-btn
-            v-bind="props"
-            color="primary"
-            dark
-            class="ma-2"
-            prepend-icon="fa fa-caret-down"
-          >
-            Acciones
-          </v-btn>
-        </template>
+      <v-btn
+        ref="actionBtn"
+        color="primary"
+        dark
+        class="ma-2"
+        prepend-icon="fa fa-caret-down"
+      >
+        Acciones
+        <v-menu activator="parent">
+          <!-- <template v-slot:activator="{ props }"> -->
+          <!-- </template> -->
 
-        <v-list>
-          <v-list-item
-            prepend-icon="fa fa-eye"
-            @click="showUserModal(item.id_user)"
-            title="Ver"
-          >
-          </v-list-item>
-          <v-list-item
-            prepend-icon="fa fa-edit"
-            @click="showEditModal(item.id_user)"
-            title="Editar"
-          >
-          </v-list-item>
-          <confirmation-dialog-component v-slot="{ props }">
+          <v-list>
             <v-list-item
-              v-bind="props"
-              prepend-icon="fa fa-key"
-              title="Activar"
+              prepend-icon="fa fa-eye"
+              @click="showUserModal(item.id_user)"
+              title="Ver"
             >
             </v-list-item>
-          </confirmation-dialog-component>
-          <v-list-item prepend-icon="fa fa-key" title="Cambiar contraseña">
-          </v-list-item>
-          <v-divider> </v-divider>
-          <v-list-item prepend-icon="fa fa-trash" title="Eliminar">
-          </v-list-item>
-        </v-list>
-      </v-menu>
+            <v-list-item
+              prepend-icon="fa fa-edit"
+              @click="showEditModal(item.id_user)"
+              title="Editar"
+            >
+            </v-list-item>
+            <confirmation-dialog-component
+              v-if="item.is_active"
+              title="¿Está seguro de desactivar este usuario?"
+              :subtitle="`${item.firstname} ${item.lastname} `"
+              icon="fa fa-user-slash"
+              color="red"
+              v-slot="{ props }"
+              @onConfirm="deactivateUser(item.id_user)"
+            >
+              <v-list-item
+                class="text-left"
+                v-bind="props"
+                prepend-icon="fa fa-user-slash"
+                title="Desactivar"
+              >
+              </v-list-item>
+            </confirmation-dialog-component>
+            <confirmation-dialog-component
+              v-if="!item.is_active"
+              title="¿Está seguro de activar este usuario?"
+              :subtitle="`${item.firstname} ${item.lastname} `"
+              icon="fa fa-check"
+              color="green"
+              v-slot="{ props }"
+              @onConfirm="activateUser(item.id_user)"
+            >
+              <v-list-item
+                class="text-left"
+                v-bind="props"
+                prepend-icon="fa fa-key"
+                title="Activar"
+              >
+              </v-list-item>
+            </confirmation-dialog-component>
+            <v-list-item prepend-icon="fa fa-key" title="Cambiar contraseña">
+            </v-list-item>
+            <v-divider> </v-divider>
+            <v-list-item prepend-icon="fa fa-trash" title="Eliminar">
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-btn>
     </template>
   </datatable-component>
 
@@ -88,11 +114,12 @@
 <script setup lang="ts">
 import DatatableComponent from "@/components/DatatableComponent.vue";
 import ConfirmationDialogComponent from "@/components/ConfirmationDialogComponent.vue";
-import users from "@/services/users.service";
+import usersServices from "@/services/users.service";
 import { defineExpose, defineProps, ref } from "vue";
 import { useDisplay } from "vuetify";
 import UserEditComponent from "./UserEditComponent.vue";
 import UserViewComponent from "./UserViewComponent.vue";
+import { Alert, AlertType } from "../../../plugins/Alert";
 
 const display = useDisplay();
 
@@ -119,6 +146,32 @@ const showUserModal = (value: string) => {
 const showEditModal = (value: string) => {
   modalEdit.value = true;
   id_user.value = value;
+};
+
+const deactivateUser = async (id_user: string) => {
+  // Cerrar el menu de acciones del usuario
+
+  const response = await usersServices.disable(id_user);
+  if (response.status === 200) {
+    Alert.show({
+      type: AlertType.Success,
+      message: "Usuario desactivado correctamente",
+    });
+    // Recargar la tabla
+    dataTable.value?.getData();
+  }
+};
+
+const activateUser = async (id_user: string) => {
+  const response = await usersServices.enable(id_user);
+  if (response.status === 200) {
+    Alert.show({
+      type: AlertType.Success,
+      message: "Usuario activado correctamente",
+    });
+    // Recargar la tabla
+    dataTable.value?.getData();
+  }
 };
 
 const getUsers = () => {

@@ -32,9 +32,21 @@ const update = async (id: string, user: any) => {
   return response;
 };
 
+const disable = async (id: string) => {
+  const response = await network.put(`/v1/user/${id}/disable`);
+  return response;
+};
+
+const enable = async (id: string) => {
+  const response = await network.put(`/v1/user/${id}/enable`);
+  return response;
+};
+
 export default {
   getUsers,
   create,
   get,
   update,
+  disable,
+  enable,
 };

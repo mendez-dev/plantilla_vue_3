@@ -127,7 +127,10 @@ const debounceSearch = (event: any) => {
 // Watchers
 watch(currentPage, getData);
 watch(query, getData);
-watch(recordsPerPage, getData);
+watch(recordsPerPage, () => {
+  currentPage.value = 1;
+  getData();
+});
 
 // OnMounted
 onMounted(() => {
