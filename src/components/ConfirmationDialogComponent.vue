@@ -36,7 +36,10 @@
             color="primary"
             variant="outlined"
             text
-            @click="dialog = false"
+            @click="
+              dialog = false;
+              $emit('onCancel');
+            "
           >
             Cancelar
           </v-btn>
@@ -88,5 +91,5 @@ defineProps({
   },
 });
 
-defineEmits(["onConfirm"]);
+defineEmits(["onConfirm", "onCancel"]);
 </script>
