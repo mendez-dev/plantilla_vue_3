@@ -42,6 +42,11 @@ const enable = async (id: string) => {
   return response;
 };
 
+const remove = async (id: string) => {
+  const response = await network.delete(`/v1/user/${id}`);
+  return response;
+};
+
 export default {
   getUsers,
   create,
@@ -49,4 +54,5 @@ export default {
   update,
   disable,
   enable,
+  remove,
 };

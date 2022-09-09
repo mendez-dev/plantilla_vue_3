@@ -66,7 +66,26 @@
         <v-list-item prepend-icon="fa fa-key" title="Cambiar contraseña">
         </v-list-item>
         <v-divider> </v-divider>
-        <v-list-item prepend-icon="fa fa-trash" title="Eliminar"> </v-list-item>
+        <confirmation-dialog-component
+          title="¿Está seguro elminiar este usuario?"
+          :subtitle="`${user.firstname} ${user.lastname} `"
+          icon="fa fa-trash"
+          color="red"
+          v-slot="{ props }"
+          @on-confirm="
+            removeUser(user.id_user);
+            actionBtn.$el.click();
+          "
+          @on-cancel="actionBtn.$el.click()"
+        >
+          <v-list-item
+            class="text-left"
+            v-bind="props"
+            prepend-icon="fa fa-trash"
+            title="Eliminar"
+          >
+          </v-list-item>
+        </confirmation-dialog-component>
       </v-list>
     </v-menu>
 
@@ -152,6 +171,18 @@ const activateUser = async (id_user: string) => {
     Alert.show({
       type: AlertType.Success,
       message: "Usuario activado correctamente",
+    });
+    // Recargar la tabla por medio del evento
+    emit("on-success");
+  }
+};
+
+const removeUser = async (id_user: string) => {
+  const response = await usersServices.remove(id_user);
+  if (response.status === 200) {
+    Alert.show({
+      type: AlertType.Success,
+      message: "Usuario eliminado correctamente",
     });
     // Recargar la tabla por medio del evento
     emit("on-success");
