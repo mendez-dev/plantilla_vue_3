@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <!-- Breadcrumbs -->
     <v-row>
       <v-col cols="12">
         <v-breadcrumbs :items="breadcrumbs">
@@ -10,19 +11,20 @@
       </v-col>
     </v-row>
 
+    <!-- card -->
     <v-row>
       <v-col cols="12">
         <general-card-component
-          title="Administración de usuarios"
-          subtitle="Administración de usuarios del sistema"
+          title="Administración de grupos de usuarios"
+          subtitle="Administración de grupos de usuarios del sistema"
           icon="fa fa-user"
         >
           <template v-slot:button>
-            <user-form-component
-              @onCreated="refreshTable"
-            ></user-form-component>
-          </template>
-          <users-table-component ref="userTable"></users-table-component>
+            <group-form-component
+              @on-created="updateTable"
+            ></group-form-component
+          ></template>
+          <groups-table-component ref="groupTable"></groups-table-component>
         </general-card-component>
       </v-col>
     </v-row>
@@ -30,14 +32,14 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import UsersTableComponent from "../components/UsersTableComponent.vue";
 import GeneralCardComponent from "@/components/GeneralCardComponent.vue";
-import UserFormComponent from "../components/UserFormComponent.vue";
+import GroupsTableComponent from "../components/GroupsTableComponent.vue";
+import GroupFormComponent from "../components/GroupFormComponent.vue";
 
-const userTable = ref<InstanceType<typeof UsersTableComponent> | null>(null);
+const groupTable = ref<InstanceType<typeof GroupsTableComponent> | null>(null);
 
-const refreshTable = () => {
-  userTable.value?.getUsers();
+const updateTable = () => {
+  groupTable.value?.updateTable();
 };
 
 // Definimos las breadcrumbs
@@ -53,9 +55,9 @@ const breadcrumbs = ref([
     to: "/users",
   },
   {
-    text: "Administración de usuarios",
+    text: "Administración de grupos de usuarios",
     disabled: true,
-    to: "/users/admin",
+    to: "groups",
   },
 ]);
 </script>

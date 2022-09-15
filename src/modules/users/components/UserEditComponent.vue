@@ -112,7 +112,7 @@ import { computed, defineEmits, defineProps, onMounted, ref } from "vue";
 import { useDisplay } from "vuetify";
 
 // Importaciones de servicios
-import groupsService from "@/services/groups.service";
+import groupsService from "@/services/GroupService";
 import usersService from "@/services/users.service";
 
 // Importaciones de modelos

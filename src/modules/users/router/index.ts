@@ -6,14 +6,20 @@ const usersRoutes: Array<RouteRecordRaw> = [
     name: "users",
     component: () =>
       import(
-        /* webpackChunkName: "appSettings" */ "../views/DashboardView.vue"
+        /* webpackChunkName: "usersDashboard" */ "../views/DashboardView.vue"
       ),
   },
   {
     path: "/users/admin",
     name: "users-admin",
     component: () =>
-      import(/* webpackChunkName: "appSettings" */ "../views/UsersView.vue"),
+      import(/* webpackChunkName: "users" */ "../views/UsersView.vue"),
+  },
+  {
+    path: "/groups",
+    name: "groups",
+    component: () =>
+      import(/* webpackChunkName: "groups" */ "../views/GroupsView.vue"),
   },
 ];
 

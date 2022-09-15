@@ -15,19 +15,20 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" lg="4" xl="3">
         <DashboardCard
-          header-text="Administracion de"
+          header-text="Administración de"
           main-text="Usuarios"
           button-text="Administrar"
           icon="fa fa-user"
-          @onClick="$router.push('/users/admin')"
+          @onClick="$router.push({ name: 'users-admin' })"
         />
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="4" xl="3">
         <DashboardCard
-          header-text="Administracion de"
+          header-text="Administración de"
           main-text="Grupos de usuarios"
           button-text="Administrar"
           icon="fa fa-users"
+          @onClick="$router.push({ name: 'groups' })"
         />
       </v-col>
     </v-row>

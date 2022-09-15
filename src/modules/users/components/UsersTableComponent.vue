@@ -19,17 +19,10 @@
 <script setup lang="ts">
 import DatatableComponent from "@/components/DatatableComponent.vue";
 import usersServices from "@/services/users.service";
-import { defineExpose, defineProps, ref } from "vue";
+import { defineExpose, ref } from "vue";
 import UserActionButtonComponent from "./UserActionButtonComponent.vue";
 
 const dataTable = ref<InstanceType<typeof DatatableComponent> | null>(null);
-
-defineProps({
-  refresh: {
-    type: Boolean,
-    default: false,
-  },
-});
 
 const getUsers = () => {
   dataTable.value?.getData();

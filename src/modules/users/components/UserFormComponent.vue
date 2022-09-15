@@ -20,6 +20,14 @@
       <v-card
         :width="display.width.value > 800 ? 800 : display.width.value * 0.9"
       >
+        <v-progress-linear
+          v-if="isLoading"
+          class="position-absolute"
+          style="z-index: 1"
+          height="10"
+          indeterminate
+        ></v-progress-linear>
+
         <v-toolbar color="primary" dark>
           <v-card-title> Agregar usuario </v-card-title>
         </v-toolbar>
@@ -147,7 +155,13 @@
           >
             Cancelar
           </v-btn>
-          <v-btn color="primary" variant="flat" text @click="submit">
+          <v-btn
+            :loading="isLoading"
+            color="primary"
+            variant="flat"
+            text
+            @click="submit"
+          >
             Guardar
           </v-btn>
         </v-card-actions>
@@ -157,7 +171,7 @@
 </template>
 
 <script setup lang="ts">
-import groupsService from "@/services/groups.service";
+import groupsService from "@/services/GroupService";
 import usersService from "@/services/users.service";
 import Group from "@/models/Group/Group";
 import { useDisplay } from "vuetify";
@@ -167,8 +181,9 @@ import { helpers, minLength, required, sameAs } from "@vuelidate/validators";
 import { Alert, AlertType } from "@/plugins/Alert";
 
 const display = useDisplay();
-
 const dialog = ref(false);
+const isLoading = ref(false);
+
 const groups = ref([]);
 const form = reactive({
   firstname: "",
@@ -225,7 +240,9 @@ const submit = async () => {
 
   if (!v$.value.$error) {
     // Guardamos el nuevo usuario
+    isLoading.value = true;
     const response = await usersService.create(form);
+    isLoading.value = false;
     if (response.status === 200) {
       Alert.show({
         type: AlertType.Success,
@@ -254,7 +271,7 @@ onMounted(async () => {
   const response = await groupsService.getAll();
 
   if (response.status === 200) {
-    groups.value = response.data.map((group: any) => {
+    groups.value = response.data.map((group: unknown) => {
       return Group.fromJson(JSON.stringify(group));
     });
   }
