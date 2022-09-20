@@ -1,5 +1,9 @@
 import network from "../repositories/network_repository/network_repository";
 
+const get = async (id: string) => {
+  return await network.get(`/v1/group/${id}`);
+};
+
 const getAll = async () => {
   const response = await network.get("/v1/group");
   return response;
@@ -41,6 +45,7 @@ const remove = async (id: string) => {
 };
 
 export default {
+  get,
   getAll,
   getPaginated,
   create,

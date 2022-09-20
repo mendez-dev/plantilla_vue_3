@@ -21,6 +21,14 @@ const usersRoutes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "groups" */ "../views/GroupsView.vue"),
   },
+  {
+    path: "/group-permissions/:id",
+    name: "group-permissions",
+    component: () =>
+      import(
+        /* webpackChunkName: "groups" */ "../views/GroupPermissionsView.vue"
+      ),
+  },
 ];
 
 export default usersRoutes;

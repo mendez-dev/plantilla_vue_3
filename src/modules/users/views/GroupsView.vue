@@ -55,7 +55,7 @@ const breadcrumbs = ref([
     to: "/users",
   },
   {
-    text: "Administración de grupos de usuarios",
+    text: "Grupos de usuarios",
     disabled: true,
     to: "groups",
   },

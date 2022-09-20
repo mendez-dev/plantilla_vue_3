@@ -4,6 +4,9 @@
     :headers="headers"
     :get-data="usersServices.getUsers"
   >
+    <template v-slot:[`item.id_user_group`]="{ item }">
+      {{ item.group.name }}
+    </template>
     <template v-slot:[`item.is_active`]="{ item }">
       <v-chip v-if="item.is_active" class="ma-2 text-white" color="green">
         Activo

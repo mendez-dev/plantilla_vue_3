@@ -15,6 +15,17 @@
           title="Ver"
         >
         </v-list-item>
+        <v-list-item
+          prepend-icon="fa fa-shield-halved"
+          title="Asignar permisos"
+          @click="
+            $router.push({
+              name: 'group-permissions',
+              params: { id: group.id_user_group },
+            })
+          "
+        >
+        </v-list-item>
         <confirmation-dialog-component
           v-if="group.is_active"
           title="¿Está seguro de desactivar este grupo?"

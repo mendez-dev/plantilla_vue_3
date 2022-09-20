@@ -2,6 +2,8 @@
  * Clase que representa un grupo
  */
 
+import Permission from "./Permission";
+
 export default class Group {
   id_user_group: string;
   name: string;
@@ -13,6 +15,7 @@ export default class Group {
   updated_at: string;
   deleted_by: string;
   deleted_at: string;
+  permissions: Permission[] | undefined | null;
 
   constructor(
     id_user_group: string,
@@ -24,7 +27,8 @@ export default class Group {
     updated_by: string,
     updated_at: string,
     deleted_by: string,
-    deleted_at: string
+    deleted_at: string,
+    permissions?: Permission[]
   ) {
     this.id_user_group = id_user_group;
     this.name = name;
@@ -36,6 +40,7 @@ export default class Group {
     this.updated_at = updated_at;
     this.deleted_by = deleted_by;
     this.deleted_at = deleted_at;
+    this.permissions = permissions ? permissions : null;
   }
 
   public static fromJson(json: string): Group {
@@ -50,7 +55,12 @@ export default class Group {
       response.updated_by,
       response.updated_at,
       response.deleted_by,
-      response.deleted_at
+      response.deleted_at,
+      response.permissions
+        ? response.permissions.map((permission: any) =>
+            Permission.fromJson(JSON.stringify(permission))
+          )
+        : null
     );
   }
 }

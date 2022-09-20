@@ -1,3 +1,5 @@
+import Group from "../Group/Group";
+
 /**
  * Clase que representa un usuario
  */
@@ -16,6 +18,7 @@ export default class User {
   updated_at: string;
   deleted_by: string;
   deleted_at: string;
+  group: Group | undefined | null;
 
   // getter para el nombre completo
   get fullName(): string {
@@ -36,7 +39,8 @@ export default class User {
     updated_by: string,
     updated_at: string,
     deleted_by: string,
-    deleted_at: string
+    deleted_at: string,
+    group?: Group
   ) {
     this.id_user = id_user;
     this.id_user_group = id_user_group;
@@ -52,6 +56,7 @@ export default class User {
     this.updated_at = updated_at;
     this.deleted_by = deleted_by;
     this.deleted_at = deleted_at;
+    this.group = group ? group : null;
   }
 
   public static fromJson(json: string): User {
@@ -70,7 +75,10 @@ export default class User {
       response.updated_by,
       response.updated_at,
       response.deleted_by,
-      response.deleted_at
+      response.deleted_at,
+      response.group
+        ? Group.fromJson(JSON.stringify(response.group))
+        : undefined
     );
   }
 }
