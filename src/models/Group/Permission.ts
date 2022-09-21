@@ -37,6 +37,7 @@ export default class Permission {
   deleted_by: string;
   deleted_at: string;
   children: Permission[] | undefined | null;
+  selected: boolean | null | undefined;
 
   constructor(
     id_permission: string,
@@ -53,7 +54,8 @@ export default class Permission {
     updated_at: string,
     deleted_by: string,
     deleted_at: string,
-    children: Permission[] | undefined | null
+    children: Permission[] | undefined | null,
+    selected: boolean | null | undefined
   ) {
     this.id_permission = id_permission;
     this.name = name;
@@ -70,6 +72,7 @@ export default class Permission {
     this.deleted_by = deleted_by;
     this.deleted_at = deleted_at;
     this.children = children ? children : null;
+    this.selected = selected ? selected : null;
   }
 
   public static fromJson(json: string): Permission {
@@ -89,7 +92,8 @@ export default class Permission {
       response.updated_at,
       response.deleted_by,
       response.deleted_at,
-      response.children
+      response.children,
+      response.selected
     );
   }
 }

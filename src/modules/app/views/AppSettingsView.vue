@@ -1,260 +1,258 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12"><v-breadcrumbs :items="items"></v-breadcrumbs> </v-col>
-    </v-row>
-    <v-row v-if="!appSettings.loading">
-      <v-col cols="7">
-        <v-card>
-          <v-card-item prepend-icon="fa fa-mobile-screen-button">
-            <v-card-title>Ajustes de la aplicación</v-card-title>
+  <v-row>
+    <v-col cols="12"><v-breadcrumbs :items="items"></v-breadcrumbs> </v-col>
+  </v-row>
+  <v-row v-if="!appSettings.loading">
+    <v-col cols="7">
+      <v-card>
+        <v-card-item prepend-icon="fa fa-mobile-screen-button">
+          <v-card-title>Ajustes de la aplicación</v-card-title>
 
-            <v-card-subtitle>Personaliza la aplicación</v-card-subtitle>
-          </v-card-item>
-          <v-divider></v-divider>
-          <v-card-text class="pa-10">
-            <v-form>
+          <v-card-subtitle>Personaliza la aplicación</v-card-subtitle>
+        </v-card-item>
+        <v-divider></v-divider>
+        <v-card-text class="pa-10">
+          <v-form>
+            <v-row>
+              <v-col cols="12">
+                <v-list-subheader> Aspectos generales </v-list-subheader>
+                <v-divider></v-divider>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  variant="underlined"
+                  label="Nombre de la aplicación"
+                  v-model="form.app_name"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="3">
+                <v-text-field
+                  variant="underlined"
+                  label="Divisa"
+                  v-model="form.default_currency"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="3">
+                <v-text-field
+                  variant="underlined"
+                  label="IVA"
+                  v-model="form.default_tax"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-row>
+                  <v-col cols="8">
+                    <v-list-subheader>Paleta de colores</v-list-subheader>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-switch
+                      color="primary"
+                      v-model="darkMode"
+                      label="Modo oscuro"
+                    ></v-switch>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+              </v-col>
+            </v-row>
+
+            <div v-if="darkMode">
               <v-row>
-                <v-col cols="12">
-                  <v-list-subheader> Aspectos generales </v-list-subheader>
-                  <v-divider></v-divider>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Primario"
+                    v-model="form.dark_primary_color"
+                    :error-messages="
+                      v$.dark_primary_color.$error
+                        ? v$.dark_primary_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Primario (Variante)"
+                    v-model="form.dark_primary_color_variant"
+                    :error-messages="
+                      v$.dark_primary_color_variant.$error
+                        ? v$.dark_primary_color_variant.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="6">
-                  <v-text-field
-                    variant="underlined"
-                    label="Nombre de la aplicación"
-                    v-model="form.app_name"
-                  >
-                  </v-text-field>
+                  <ColorPickerInput
+                    label="Secundario"
+                    v-model="form.dark_secondary_color"
+                    :error-messages="
+                      v$.dark_secondary_color.$error
+                        ? v$.dark_secondary_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
                 </v-col>
-                <v-col cols="3">
-                  <v-text-field
-                    variant="underlined"
-                    label="Divisa"
-                    v-model="form.default_currency"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="3">
-                  <v-text-field
-                    variant="underlined"
-                    label="IVA"
-                    v-model="form.default_tax"
-                  >
-                  </v-text-field>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Secundario (Variante)"
+                    v-model="form.dark_secondary_color_variant"
+                    :error-messages="
+                      v$.dark_secondary_color_variant.$error
+                        ? v$.dark_secondary_color_variant.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12">
-                  <v-row>
-                    <v-col cols="8">
-                      <v-list-subheader>Paleta de colores</v-list-subheader>
-                    </v-col>
-                    <v-col cols="4">
-                      <v-switch
-                        color="primary"
-                        v-model="darkMode"
-                        label="Modo oscuro"
-                      ></v-switch>
-                    </v-col>
-                  </v-row>
-                  <v-divider></v-divider>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Fondo"
+                    v-model="form.dark_background_color"
+                    :error-messages="
+                      v$.dark_background_color.$error
+                        ? v$.dark_background_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Superficie"
+                    v-model="form.dark_surface_color"
+                    :error-messages="
+                      v$.dark_surface_color.$error
+                        ? v$.dark_surface_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Error"
+                    v-model="form.dark_error_color"
+                    :error-messages="
+                      v$.dark_error_color.$error
+                        ? v$.dark_error_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+              </v-row>
+            </div>
 
-              <div v-if="darkMode">
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Primario"
-                      v-model="form.dark_primary_color"
-                      :error-messages="
-                        v$.dark_primary_color.$error
-                          ? v$.dark_primary_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Primario (Variante)"
-                      v-model="form.dark_primary_color_variant"
-                      :error-messages="
-                        v$.dark_primary_color_variant.$error
-                          ? v$.dark_primary_color_variant.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Secundario"
-                      v-model="form.dark_secondary_color"
-                      :error-messages="
-                        v$.dark_secondary_color.$error
-                          ? v$.dark_secondary_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Secundario (Variante)"
-                      v-model="form.dark_secondary_color_variant"
-                      :error-messages="
-                        v$.dark_secondary_color_variant.$error
-                          ? v$.dark_secondary_color_variant.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Fondo"
-                      v-model="form.dark_background_color"
-                      :error-messages="
-                        v$.dark_background_color.$error
-                          ? v$.dark_background_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Superficie"
-                      v-model="form.dark_surface_color"
-                      :error-messages="
-                        v$.dark_surface_color.$error
-                          ? v$.dark_surface_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Error"
-                      v-model="form.dark_error_color"
-                      :error-messages="
-                        v$.dark_error_color.$error
-                          ? v$.dark_error_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-              </div>
-
-              <div v-else>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Primario"
-                      v-model="form.primary_color"
-                      :error-messages="
-                        v$.primary_color.$error
-                          ? v$.primary_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Primario (Variante)"
-                      v-model="form.primary_color_variant"
-                      :error-messages="
-                        v$.primary_color_variant.$error
-                          ? v$.primary_color_variant.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Secundario"
-                      v-model="form.secondary_color"
-                      :error-messages="
-                        v$.secondary_color.$error
-                          ? v$.secondary_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Secundario (Variante)"
-                      v-model="form.secondary_color_variant"
-                      :error-messages="
-                        v$.secondary_color_variant.$error
-                          ? v$.secondary_color_variant.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Fondo"
-                      v-model="form.background_color"
-                      :error-messages="
-                        v$.background_color.$error
-                          ? v$.background_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Superficie"
-                      v-model="form.surface_color"
-                      :error-messages="
-                        v$.surface_color.$error
-                          ? v$.surface_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <ColorPickerInput
-                      label="Error"
-                      v-model="form.error_color"
-                      :error-messages="
-                        v$.error_color.$error
-                          ? v$.error_color.$errors[0].$message.toString()
-                          : ''
-                      "
-                    />
-                  </v-col>
-                </v-row>
-              </div>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              :loading="appSettings.updateLoading"
-              color="primary"
-              @click="submit"
-              block
-              variant="flat"
-              >Guardar</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            <div v-else>
+              <v-row>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Primario"
+                    v-model="form.primary_color"
+                    :error-messages="
+                      v$.primary_color.$error
+                        ? v$.primary_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Primario (Variante)"
+                    v-model="form.primary_color_variant"
+                    :error-messages="
+                      v$.primary_color_variant.$error
+                        ? v$.primary_color_variant.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Secundario"
+                    v-model="form.secondary_color"
+                    :error-messages="
+                      v$.secondary_color.$error
+                        ? v$.secondary_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Secundario (Variante)"
+                    v-model="form.secondary_color_variant"
+                    :error-messages="
+                      v$.secondary_color_variant.$error
+                        ? v$.secondary_color_variant.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Fondo"
+                    v-model="form.background_color"
+                    :error-messages="
+                      v$.background_color.$error
+                        ? v$.background_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Superficie"
+                    v-model="form.surface_color"
+                    :error-messages="
+                      v$.surface_color.$error
+                        ? v$.surface_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="6">
+                  <ColorPickerInput
+                    label="Error"
+                    v-model="form.error_color"
+                    :error-messages="
+                      v$.error_color.$error
+                        ? v$.error_color.$errors[0].$message.toString()
+                        : ''
+                    "
+                  />
+                </v-col>
+              </v-row>
+            </div>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            :loading="appSettings.updateLoading"
+            color="primary"
+            @click="submit"
+            block
+            variant="flat"
+            >Guardar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 <script setup lang="ts">
 import ColorPickerInput from "@/components/ColorPickerInput.vue";

@@ -1,9 +1,6 @@
 <template>
   <v-app id="inspire">
-    <NavigationDrawer
-      @closeEvent="rail = !rail"
-      :rail="rail"
-    ></NavigationDrawer>
+    <NavigationDrawer @closeEvent="close" :rail="rail"></NavigationDrawer>
     <v-app-bar app color="primary">
       <v-app-bar-nav-icon @click="rail = !rail"></v-app-bar-nav-icon>
       <v-toolbar-title>Application</v-toolbar-title>
@@ -36,7 +33,9 @@
         bottom
         color="primary"
       ></v-progress-linear>
-      <router-view></router-view>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -53,6 +52,12 @@ const display = useDisplay();
 const rail = ref(false);
 const auth = useAuthStore();
 const utils = useUtilsStore();
+
+const close = () => {
+  if (display.xs.value) {
+    rail.value = !rail.value;
+  }
+};
 
 onMounted(() => {
   if (display.xs.value) {

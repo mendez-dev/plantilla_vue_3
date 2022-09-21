@@ -1,27 +1,49 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <v-switch :label="permissionGroup.label"></v-switch>
+    <v-col class="py-0" cols="12">
+      <v-switch
+        color="primary"
+        v-model="permissionsStore.permissions.find(
+          (p) => p.id_permission === permissionGroupId
+        )!.selected"
+        :prepend-icon="permissionsStore.permissions.find(
+          (p) => p.id_permission === permissionGroupId
+        )!.icon"
+        :label="permissionsStore.permissions.find(
+          (p) => p.id_permission === permissionGroupId
+        )!.label"
+      ></v-switch>
     </v-col>
   </v-row>
-  <v-row>
+  <v-row class="py-0">
     <v-col
-      cols="3"
-      v-for="permission in permissionGroup.children"
+      class="py-0"
+      cols="4"
+      v-for="permission in permissionsStore.permissions.find(
+          (p) => p.id_permission === permissionGroupId
+        )!.children"
       v-bind:key="permission.id_permission"
     >
-      <v-switch :label="permission.label"></v-switch>
+      <v-switch
+        color="primary"
+        v-model="permission.selected"
+        :prepend-icon="permission.icon"
+        :label="permission.label"
+      ></v-switch>
     </v-col>
   </v-row>
   <v-divider class="mb-10"></v-divider>
 </template>
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps, onMounted } from "vue";
 import Permission from "@/models/Group/Permission";
+import { usePermissionsStore } from "../stores/permissions/index";
+
+const permissionsStore = usePermissionsStore();
 
 defineProps({
-  permissionGroup: {
-    type: Permission,
+  permissionGroupId: {
+    type: String,
     required: true,
   },
 });

@@ -50,9 +50,28 @@ export const usePermissionsStore = defineStore("permissions", {
       const response = await PermissionService.getAll();
 
       if (response.status === 200) {
-        const permissionsArray = response.data.map((permission: any) =>
+        let permissionsArray = response.data.map((permission: any) =>
           Permission.fromJson(JSON.stringify(permission))
         );
+
+        // Indicamos como seleccionados los permisos que ya tiene el grupo
+        if (this.group && this.group.permissions) {
+          permissionsArray = permissionsArray.map((permission: Permission) => {
+            // Verificar si el permiso esta en el grupo mediante el id_permission
+            const permissionInGroup = this.group!.permissions!.find(
+              (groupPermission) =>
+                groupPermission.id_permission === permission.id_permission
+            );
+
+            if (permissionInGroup) {
+              permission.selected = true;
+            } else {
+              permission.selected = false;
+            }
+
+            return permission;
+          });
+        }
 
         // Identificamos los permisos padre son aquellos que no dependen de otro permiso
         const parentPermissions = permissionsArray.filter(
