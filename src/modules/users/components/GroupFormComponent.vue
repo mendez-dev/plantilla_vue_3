@@ -2,6 +2,7 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
+      :width="display.width.value > 800 ? 800 : display.width.value * 0.9"
       :fullscreen="display.xs.value"
       transition="dialog-center-transition"
     >
@@ -18,9 +19,7 @@
           Nuevo grupo
         </v-btn>
       </template>
-      <v-card
-        :width="display.width.value > 800 ? 800 : display.width.value * 0.9"
-      >
+      <v-card>
         <v-progress-linear
           v-if="isLoading"
           class="position-absolute"

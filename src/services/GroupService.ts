@@ -44,6 +44,14 @@ const remove = async (id: string) => {
   return response;
 };
 
+const assignPermissions = async (id: string, permissions: string[]) => {
+  const response = await network.put(
+    `/v1/group/${id}/permissions`,
+    permissions
+  );
+  return response;
+};
+
 export default {
   get,
   getAll,
@@ -52,4 +60,5 @@ export default {
   disable,
   enable,
   remove,
+  assignPermissions,
 };

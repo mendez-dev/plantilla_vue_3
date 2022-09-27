@@ -23,34 +23,23 @@ export const usePermissionsStore = defineStore("permissions", {
     permissions: [],
   }),
   actions: {
-    /**
-     * Obtenemos la informacion del grupo
-     * @param id
-     */
-    async getGroup(id: string) {
+    async getInitialData(id: string) {
+      this.permissions = [];
+
       this.loading = true;
       utils.setLoading(true);
 
-      const response = await GroupService.get(id);
-
-      if (response.status === 200) {
-        this.group = Group.fromJson(JSON.stringify(response.data));
+      // Obtenemos el grupo
+      const groupResponse = await GroupService.get(id);
+      if (groupResponse.status === 200) {
+        this.group = Group.fromJson(JSON.stringify(groupResponse.data));
       }
 
-      this.loading = false;
-      utils.setLoading(false);
-    },
-    /**
-     * Obtenemos el listado de todos los permisos disponibles
-     */
-    async getPermissions() {
-      this.loading = true;
-      utils.setLoading(true);
+      // Obtenemos los permisos
+      const permissionsResponse = await PermissionService.getAll();
 
-      const response = await PermissionService.getAll();
-
-      if (response.status === 200) {
-        let permissionsArray = response.data.map((permission: any) =>
+      if (permissionsResponse.status === 200) {
+        let permissionsArray = permissionsResponse.data.map((permission: any) =>
           Permission.fromJson(JSON.stringify(permission))
         );
 
@@ -90,6 +79,62 @@ export const usePermissionsStore = defineStore("permissions", {
       }
 
       this.loading = false;
+      utils.setLoading(false);
+    },
+    togglePermission(id_permission: string) {
+      // Verificamos si el permiso tiene hijos
+      const permission = this.permissions.find(
+        (permission) => permission.id_permission === id_permission
+      );
+
+      if (permission && permission.children) {
+        // Si tiene hijos, seleccionamos o deseleccionamos todos los hijos
+        if (permission.selected) {
+          permission.children.forEach((childPermission) => {
+            childPermission.selected = true;
+          });
+        } else {
+          permission.children.forEach((childPermission) => {
+            childPermission.selected = false;
+          });
+        }
+      }
+    },
+    async updatePermissions() {
+      this.updateLoading = true;
+      utils.setLoading(true);
+
+      // Obtenemos los permisos seleccionados tanto del grupo como de sus hijos
+      const selectedPermissions = this.permissions
+        .filter((permission) => permission.selected)
+        .map((permission) => permission.id_permission);
+
+      this.permissions.forEach((permission) => {
+        if (permission.children) {
+          permission.children.forEach((childPermission) => {
+            if (childPermission.selected) {
+              selectedPermissions.push(childPermission.id_permission);
+            }
+          });
+        }
+      });
+
+      console.log(selectedPermissions);
+
+      // Actualizamos los permisos del grupo
+      const response = await GroupService.assignPermissions(
+        this.group!.id_user_group,
+        selectedPermissions
+      );
+
+      if (response.status === 200) {
+        Alert.show({
+          type: AlertType.Success,
+          message: "Permisos actualizados correctamente",
+        });
+      }
+
+      this.updateLoading = false;
       utils.setLoading(false);
     },
   },

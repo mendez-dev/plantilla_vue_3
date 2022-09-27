@@ -18,13 +18,40 @@
         :subtitle="`Gestion de permisos de grupo ${permissionsStore.group?.name}`"
         icon="fa fa-shield-halved"
       >
-        <!-- Dibujamos los permisos agrupados -->
-        <permission-group-component
+        <template v-slot:button>
+          <v-btn
+            block
+            :loading="permissionsStore.updateLoading"
+            prepend-icon="fa fa-save"
+            class="ma-2"
+            color="primary"
+            dark
+            @click="permissionsStore.updatePermissions"
+            >Guardar</v-btn
+          >
+        </template>
+      </general-card-component>
+    </v-col>
+  </v-row>
+
+  <v-row>
+    <v-col cols="12">
+      <!-- Dibujamos los permisos agrupados -->
+      <v-expansion-panels multiple>
+        <v-expansion-panel
           v-for="permissionGroup in permissionsStore.permissions"
           :key="permissionGroup.id_permission"
-          :permissionGroupId="permissionGroup.id_permission"
-        ></permission-group-component>
-      </general-card-component>
+        >
+          <v-expansion-panel-title>
+            {{ permissionGroup.group_tag }}
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <permission-group-component
+              :permissionGroupId="permissionGroup.id_permission"
+            ></permission-group-component>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-col>
   </v-row>
 </template>
@@ -64,7 +91,6 @@ const breadcrumbs = ref([
 ]);
 
 onMounted(() => {
-  permissionsStore.getGroup(route.params.id as string);
-  permissionsStore.getPermissions();
+  permissionsStore.getInitialData(route.params.id as string);
 });
 </script>

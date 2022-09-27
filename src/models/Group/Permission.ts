@@ -25,6 +25,7 @@ export default class Permission {
   id_permission: string;
   name: string;
   label: string;
+  group_tag: string;
   description: string;
   type: string;
   icon: string;
@@ -43,6 +44,7 @@ export default class Permission {
     id_permission: string,
     name: string,
     label: string,
+    group_tag: string,
     description: string,
     type: string,
     icon: string,
@@ -60,6 +62,7 @@ export default class Permission {
     this.id_permission = id_permission;
     this.name = name;
     this.label = label;
+    this.group_tag = group_tag;
     this.description = description;
     this.type = type;
     this.icon = icon;
@@ -81,6 +84,7 @@ export default class Permission {
       response.id_permission,
       response.name,
       response.label,
+      response.group_tag,
       response.description,
       response.type,
       response.icon,

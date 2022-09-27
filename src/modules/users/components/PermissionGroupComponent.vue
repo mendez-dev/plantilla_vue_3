@@ -2,6 +2,7 @@
   <v-row>
     <v-col class="py-0" cols="12">
       <v-switch
+        @change="permissionsStore.togglePermission(permissionGroupId)"
         color="primary"
         v-model="permissionsStore.permissions.find(
           (p) => p.id_permission === permissionGroupId
@@ -25,6 +26,10 @@
       v-bind:key="permission.id_permission"
     >
       <v-switch
+        :disabled="!permissionsStore.permissions.find(
+          (p) => p.id_permission === permissionGroupId
+        )!.selected"
+        @change="permissionsStore.togglePermission(permission.id_permission)"
         color="primary"
         v-model="permission.selected"
         :prepend-icon="permission.icon"
@@ -32,7 +37,6 @@
       ></v-switch>
     </v-col>
   </v-row>
-  <v-divider class="mb-10"></v-divider>
 </template>
 <script setup lang="ts">
 import { defineProps, onMounted } from "vue";
