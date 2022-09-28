@@ -19,7 +19,9 @@
   <v-row class="py-0">
     <v-col
       class="py-0"
-      cols="4"
+      cols="12"
+      md="6"
+      lg="4"
       v-for="permission in permissionsStore.permissions.find(
           (p) => p.id_permission === permissionGroupId
         )!.children"

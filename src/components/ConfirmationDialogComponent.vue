@@ -1,13 +1,15 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" transition="dialog-center-transition">
+    <v-dialog
+      :width="display.width.value > 450 ? 450 : display.width.value * 0.9"
+      v-model="dialog"
+      transition="dialog-center-transition"
+    >
       <template v-slot:activator="{ props }">
         <!-- Crear un slot para activar el cuadro de dialogo -->
         <slot :props="props"></slot>
       </template>
-      <v-card
-        :width="display.width.value > 450 ? 450 : display.width.value * 0.9"
-      >
+      <v-card>
         <v-toolbar :color="color" dark class="mb-7">
           <v-row class="justify-center">
             <p class="text-center text-white text-h6 my-7">{{ title }}</p>
@@ -15,7 +17,7 @@
         </v-toolbar>
         <v-row>
           <v-col class="d-flex justify-center">
-            <v-avatar :color="color" size="100" class="">
+            <v-avatar variant="flat" :color="color" size="100">
               <v-icon color="white" size="35" class="d-flex justify-center">
                 {{ icon }}
               </v-icon>

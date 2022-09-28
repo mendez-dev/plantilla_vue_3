@@ -1,5 +1,5 @@
 <template>
-  <v-card :width="display.width.value > 800 ? 800 : display.width.value * 0.9">
+  <v-card>
     <v-toolbar color="primary" dark>
       <v-card-title> Actualizar usuario </v-card-title>
     </v-toolbar>
@@ -109,7 +109,6 @@
 import useVuelidate from "@vuelidate/core";
 import { helpers, minLength, required, email } from "@vuelidate/validators";
 import { computed, defineEmits, defineProps, onMounted, ref } from "vue";
-import { useDisplay } from "vuetify";
 
 // Importaciones de servicios
 import groupsService from "@/services/GroupService";
@@ -118,8 +117,6 @@ import usersService from "@/services/users.service";
 // Importaciones de modelos
 import Group from "@/models/Group/Group";
 import { Alert, AlertType } from "@/plugins/Alert";
-
-const display = useDisplay();
 
 // Definición de propiedades
 const props = defineProps({

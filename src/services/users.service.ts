@@ -47,6 +47,13 @@ const remove = async (id: string) => {
   return response;
 };
 
+const changePassword = async (id: string, password: string) => {
+  const response = await network.put(`/v1/user/${id}/password`, {
+    password,
+  });
+  return response;
+};
+
 export default {
   getUsers,
   create,
@@ -55,4 +62,5 @@ export default {
   disable,
   enable,
   remove,
+  changePassword,
 };

@@ -1,7 +1,13 @@
 <template>
   <div class="text-center">
     <v-dialog
-      :width="display.width.value > 800 ? 800 : display.width.value * 0.9"
+      :width="
+        display.xs.value
+          ? null
+          : display.width.value > 800
+          ? 800
+          : display.width.value * 0.9
+      "
       v-model="dialog"
       :fullscreen="display.xs.value"
       transition="dialog-center-transition"

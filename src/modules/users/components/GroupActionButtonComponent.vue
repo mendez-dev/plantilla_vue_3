@@ -17,7 +17,7 @@
         </v-list-item>
         <v-list-item
           prepend-icon="fa fa-shield-halved"
-          title="Asignar permisos"
+          title="Gestion de permisos"
           @click="
             $router.push({
               name: 'group-permissions',
@@ -91,6 +91,27 @@
         </confirmation-dialog-component>
       </v-list>
     </v-menu>
+
+    <!-- Modal para ver la información del grupo -->
+    <div class="text-center">
+      <v-dialog
+        :width="
+          display.xs.value
+            ? null
+            : display.width.value > 800
+            ? 800
+            : display.width.value * 0.9
+        "
+        :fullscreen="display.xs.value"
+        v-model="modalView"
+        transition="dialog-center-transition"
+      >
+        <group-view-component
+          :id_user_group="group.id_user_group"
+          @on-close="modalView = false"
+        />
+      </v-dialog>
+    </div>
   </v-btn>
 </template>
 <script setup lang="ts">
@@ -104,6 +125,7 @@ import Group from "@/models/Group/Group";
 // Importación de componentes
 import { Alert, AlertType } from "@/plugins/Alert";
 import ConfirmationDialogComponent from "@/components/ConfirmationDialogComponent.vue";
+import GroupViewComponent from "@/modules/users/components/GroupViewComponent.vue";
 import { VBtn, VMenu } from "vuetify/lib/components";
 
 // Importación de servicios

@@ -63,7 +63,11 @@
           >
           </v-list-item>
         </confirmation-dialog-component>
-        <v-list-item prepend-icon="fa fa-key" title="Cambiar contraseña">
+        <v-list-item
+          @click="modalChangePassword = true"
+          prepend-icon="fa fa-key"
+          title="Cambiar contraseña"
+        >
         </v-list-item>
         <v-divider> </v-divider>
         <confirmation-dialog-component
@@ -92,6 +96,13 @@
     <!-- Modal para ver la información del usuario -->
     <div class="text-center">
       <v-dialog
+        :width="
+          display.xs.value
+            ? null
+            : display.width.value > 800
+            ? 800
+            : display.width.value * 0.9
+        "
         :fullscreen="display.xs.value"
         v-model="modalView"
         transition="dialog-center-transition"
@@ -107,6 +118,13 @@
     <!-- Modal para editar la información de un usuario -->
     <div class="text-center">
       <v-dialog
+        :width="
+          display.xs.value
+            ? null
+            : display.width.value > 800
+            ? 800
+            : display.width.value * 0.9
+        "
         :fullscreen="display.xs.value"
         v-model="modalEdit"
         transition="dialog-center-transition"
@@ -118,11 +136,33 @@
         ></user-edit-component>
       </v-dialog>
     </div>
+
+    <!-- Modal para cambiar la contraseña de un usuario -->
+    <div class="text-center">
+      <v-dialog
+        :width="
+          display.xs.value
+            ? null
+            : display.width.value > 800
+            ? 800
+            : display.width.value * 0.9
+        "
+        :fullscreen="display.xs.value"
+        v-model="modalChangePassword"
+        transition="dialog-center-transition"
+      >
+        <user-change-password-component
+          @on-success="$emit('on-success')"
+          @on-close="modalChangePassword = false"
+          :id_user="user.id_user"
+        ></user-change-password-component>
+      </v-dialog>
+    </div>
   </v-btn>
 </template>
 <script setup lang="ts">
 // Importación de librerías de terceros
-import { defineProps, ref, defineEmits } from "vue";
+import { defineProps, ref, defineEmits, watch } from "vue";
 import { useDisplay } from "vuetify";
 
 // Importación de modelos
@@ -133,6 +173,7 @@ import { Alert, AlertType } from "@/plugins/Alert";
 import ConfirmationDialogComponent from "@/components/ConfirmationDialogComponent.vue";
 import UserEditComponent from "@/modules/users/components/UserEditComponent.vue";
 import UserViewComponent from "@/modules/users/components/UserViewComponent.vue";
+import UserChangePasswordComponent from "@/modules/users/components/UserChangePasswordComponent.vue";
 import { VBtn } from "vuetify/lib/components";
 import { VMenu } from "vuetify/lib/components";
 
@@ -150,6 +191,7 @@ const display = useDisplay();
 // Variables reactivas
 const modalView = ref(false);
 const modalEdit = ref(false);
+const modalChangePassword = ref(false);
 
 const actionBtn = ref<InstanceType<typeof VBtn> | null>(null);
 const menu = ref<InstanceType<typeof VMenu> | null>(null);

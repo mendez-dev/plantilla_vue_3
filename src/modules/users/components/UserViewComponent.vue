@@ -1,5 +1,5 @@
 <template>
-  <v-card :width="display.width.value > 800 ? 800 : display.width.value * 0.9">
+  <v-card>
     <v-progress-linear
       v-if="loading"
       class="position-absolute"
@@ -49,7 +49,6 @@
 </template>
 <script setup lang="ts">
 import { defineProps, ref, Ref, defineEmits, onMounted } from "vue";
-import { useDisplay } from "vuetify";
 import usersService from "@/services/users.service";
 import User from "@/models/User/User";
 
@@ -63,7 +62,6 @@ const props = defineProps({
 const loading: Ref<boolean> = ref(false);
 const user: Ref<User | null> = ref(null);
 
-const display = useDisplay();
 defineEmits(["onClose"]);
 
 onMounted(async () => {
